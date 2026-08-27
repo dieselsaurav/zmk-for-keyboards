@@ -209,7 +209,8 @@
   .key-fn { background: #2a2a2a; border-color: #4a4a4a; }
   .key-bt { background: #0a2a4a; border-color: #0a4a7a; }
   .key-rgb { background: #2a1a3a; border-color: #4a2a6a; }
-  .key-mouse { background: #3a2a1a; border-color: #5a4a2a; }
+  .key-win { background: #123a37; border-color: #1d5a54; }
+  .key-herdr { background: #3a1a24; border-color: #6a2a3a; }
 
   /* Combo indicators */
   .combo {
@@ -507,10 +508,10 @@ const layers = {
       {t:"TAB"},{t:"Q"},{t:"W"},{t:"E"},{t:"R"},{t:"T"},
       {t:"Y"},{t:"U"},{t:"I"},{t:"O"},{t:"P"},{t:"BSPC"},
       {t:"LCTRL"},{t:"A",h:"CMD"},{t:"S",h:"OPT"},{t:"D",h:"CTRL"},{t:"F",h:"SHIFT"},{t:"G"},
-      {t:"H"},{t:"J",h:"SHIFT"},{t:"K",h:"CTRL"},{t:"L",h:"OPT"},{t:";",h:"CMD"},{t:"'"},
+      {t:"H"},{t:"J",h:"SHIFT"},{t:"K",h:"CTRL"},{t:"L",h:"OPT"},{t:"'",h:"CMD"},{t:"HYPER"},
       {t:"LSHFT"},{t:"Z"},{t:"X"},{t:"C"},{t:"V"},{t:"B"},
-      {t:"N"},{t:"M"},{t:","},{t:"."},{t:"/"},{t:"ESC"},
-      {t:"ESC",h:"media",type:"layer"},{t:"SPACE",h:"nav",type:"layer"},{t:"TAB",h:"mouse",type:"layer"},
+      {t:"N"},{t:"M"},{t:","},{t:"."},{t:"/"},{t:"PREFIX",h:"\u2303A",type:"herdr"},
+      {t:"ESC",h:"media",type:"layer"},{t:"SPACE",h:"nav",type:"layer"},{t:"TAB",h:"herdr",type:"layer"},
       {t:"ENTER",h:"sym",type:"layer"},{t:"BSPC",h:"num",type:"layer"},{t:"DEL",h:"fun",type:"layer"}
     ]
   },
@@ -579,17 +580,17 @@ const layers = {
       {},{},{type:"held"}
     ]
   },
-  mouse: {
-    icon: "P", color: "#f97316",
+  herdr: {
+    icon: "H", color: "#14b8a6",
     keys: [
-      {},{},{},{},{},{},
-      {t:"REDO",type:"nav"},{t:"PASTE",type:"nav"},{t:"COPY",type:"nav"},{t:"CUT",type:"nav"},{t:"UNDO",type:"nav"},{},
-      {},{t:"LGUI",type:"mod"},{t:"LALT",type:"mod"},{t:"LCTRL",type:"mod"},{t:"LSHIFT",type:"mod"},{},
-      {t:"\u2190",type:"mouse"},{t:"\u2193",type:"mouse"},{t:"\u2191",type:"mouse"},{t:"\u2192",type:"mouse"},{},{},
-      {},{},{},{},{},{},
-      {},{},{},{},{},{},
+      {t:"\u2303\u2191",h:"MISSION",type:"nav"},{t:"\u25e7 HALF",type:"win"},{t:"\u2b12 HALF",type:"win"},{t:"\u25e8 HALF",type:"win"},{t:"\u25f0 \u00bc",type:"win"},{t:"\u25f3 \u00bc",type:"win"},
+      {t:"PREFIX",h:"\u2303A",type:"herdr"},{t:"\u2039 TAB",type:"herdr"},{t:"TAB \u203a",type:"herdr"},{t:"+ TAB",type:"herdr"},{t:"\u2715 TAB",type:"herdr"},{t:"\u270e TAB",type:"herdr"},
+      {t:"\u2303\u2193",h:"EXPOS\u00c9",type:"nav"},{t:"\u2303\u2190",h:"SPACE",type:"nav"},{t:"MAX",type:"win"},{t:"\u2303\u2192",h:"SPACE",type:"nav"},{t:"\u25f1 \u00bc",type:"win"},{t:"\u25f2 \u00bc",type:"win"},
+      {t:"\u2190 PANE",type:"herdr"},{t:"\u2193 PANE",type:"herdr"},{t:"\u2191 PANE",type:"herdr"},{t:"\u2192 PANE",type:"herdr"},{t:"ZOOM",type:"herdr"},{t:"SIDEBAR",type:"herdr"},
+      {t:"SWITCH",type:"win"},{t:"\u25c4 DISP",type:"win"},{t:"\u2b13 HALF",type:"win"},{t:"DISP \u25ba",type:"win"},{t:"CENTER",type:"win"},{t:"RESTORE",type:"win"},
+      {t:"SPLIT \u2502",type:"herdr"},{t:"SPLIT \u2500",type:"herdr"},{t:"\u2715 PANE",type:"herdr"},{t:"SPACES",type:"herdr"},{t:"GOTO",type:"herdr"},{t:"DETACH",type:"herdr"},
       {},{},{type:"held"},
-      {t:"RCLK",type:"mouse"},{t:"LCLK",type:"mouse"},{t:"MCLK",type:"mouse"}
+      {t:"RESIZE",type:"herdr"},{t:"SCROLL\nBACK",type:"herdr"},{t:"+ SPACE",type:"herdr"}
     ]
   }
 };
@@ -613,7 +614,7 @@ const layerDescriptions = {
   num: "Number pad and math operators",
   nav: "Navigation, arrows, clipboard",
   fun: "Function keys F1-F12",
-  mouse: "Mouse movement and clicks"
+  herdr: "herdr multiplexer and macOS window management"
 };
 
 let currentLayer = 'base';
@@ -630,7 +631,8 @@ function getKeyClass(key) {
   if (key.type === 'sym') return 'key-symbol';
   if (key.type === 'num') return 'key-number';
   if (key.type === 'fn') return 'key-fn';
-  if (key.type === 'mouse') return 'key-mouse';
+  if (key.type === 'win') return 'key-win';
+  if (key.type === 'herdr') return 'key-herdr';
   if (key.h && !key.type) return 'key-mod';
   return 'key-default';
 }

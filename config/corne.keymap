@@ -56,6 +56,22 @@
 };
 
 / {
+    behaviors {
+        // Layer-tap without quick-tap. The global &lt has quick-tap-ms = <175>,
+        // which means tapping TAB and then re-pressing this same thumb within
+        // 175ms repeats TAB instead of activating the layer. Harmless when
+        // layer 6 was mouse emulation; not harmless now that it is the control
+        // layer and "tab-complete, then grab a pane" is a normal sequence.
+        herdr_lt: herdr_lt {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <0>;
+            bindings = <&mo>, <&kp>;
+        };
+    };
+
     combos {
         compatible = "zmk,combos";
 
@@ -184,7 +200,7 @@
 &kp TAB        &kp Q       &kp W       &kp E         &kp R         &kp T          &kp Y       &kp U         &kp I         &kp O        &kp P        &kp BSPC
 &mt LCTRL ESC  &mt LGUI A  &mt LALT S  &mt LCTRL D   &mt LSHFT F   &kp G          &kp H       &mt RSHFT J   &mt RCTRL K   &mt RALT L   &mt RGUI SQT &hyper
 &kp LSHFT      &kp Z       &kp X       &kp C         &kp V         &kp B          &kp N       &kp M         &kp COMMA     &kp DOT      &kp FSLH     &kp LC(A)
-                                        &lt MEDIA ESC &lt NAV SPACE &lt HERDR TAB  &lt SYM RET &lt NUM BSPC  &lt FUN DEL
+                                        &lt MEDIA ESC &lt NAV SPACE &herdr_lt HERDR TAB  &lt SYM RET &lt NUM BSPC  &lt FUN DEL
             >;
         };
 
@@ -242,7 +258,7 @@
             display-name = "HERDR";
             bindings = <
 &kp LC(UP)    &kp HYP(Q)  &kp HYP(W)  &kp HYP(E)   &kp HYP(R)   &kp HYP(T)   &kp LC(A)     &kp LC(LA(P)) &kp LC(LA(N)) &kp LC(LA(C)) &kp LC(LA(LS(X))) &kp LC(LA(LS(T)))
-&kp LC(DOWN)  &kp LC(LEFT) &kp HYP(S) &kp LC(RIGHT) &kp HYP(F)  &kp HYP(G)   &kp LA(H)     &kp LA(J)     &kp LA(K)     &kp LA(L)     &kp LC(LA(Z))     &kp LC(LA(B))
+&kp LC(DOWN)  &kp LC(LEFT) &kp HYP(S) &kp LC(RIGHT) &kp HYP(F)  &kp HYP(G)   &kp LC(LA(H)) &kp LC(LA(J)) &kp LC(LA(K)) &kp LC(LA(L))     &kp LC(LA(Z))     &kp LC(LA(B))
 &kp HYP(A)    &kp HYP(Z)  &kp HYP(X)  &kp HYP(C)   &kp HYP(V)   &kp HYP(B)   &kp LC(LA(V)) &kp LC(LA(M)) &kp LC(LA(X)) &kp LC(LA(W)) &kp LC(LA(G))     &kp LC(LA(Q))
                                       &none        &none        &none        &kp LC(LA(R)) &kp LC(LA(E)) &kp LC(LA(LS(N)))
             >;

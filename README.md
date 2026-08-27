@@ -43,4 +43,4 @@ make svg       # parse + render SVG
 - **RGB:** 27 WS2812 LEDs
 - **Bluetooth:** 4 profiles
 - **ZMK Studio:** Enabled
-- **Mouse/Pointing:** Enabled
+- **Mouse/Pointing:** Removed (layer 6 is now HERDR: multiplexer + window management)
