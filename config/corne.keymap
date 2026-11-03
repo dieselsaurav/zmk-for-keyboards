@@ -15,6 +15,9 @@
 //   Layer 4: SYM     — symbols left hand (hold ENTER)
 //   Layer 5: FUN     — function keys left hand (hold DEL)
 //   Layer 6: MOUSE   — mouse movement, scroll, buttons (hold TAB)
+//   Layers 7-13: Windows equivalents, in the same order.
+//   Hold the ESC thumb, then tap Q for Mac or W for Windows.
+//   Mode is independent of Bluetooth; reboot returns to Mac.
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
@@ -31,6 +34,15 @@
 #define SYM   4
 #define FUN   5
 #define MOUSE 6
+
+// Windows uses a parallel layer bank so modifiers and combos follow the OS.
+#define WIN_BASE 7
+#define WIN_NAV 8
+#define WIN_NUM 9
+#define WIN_MEDIA 10
+#define WIN_SYM 11
+#define WIN_FUN 12
+#define WIN_MOUSE 13
 
 // Corne key positions (42 keys):
 // Row 0:  0  1  2  3  4  5    6  7  8  9  10  11
@@ -102,6 +114,7 @@
         };
 
         combo_copy {
+            layers = <BASE NAV NUM MEDIA SYM FUN MOUSE>;
             bindings = <&kp LG(C)>;
             key-positions = <26 27>;        // X + C
             timeout-ms = <30>;
@@ -109,6 +122,7 @@
         };
 
         combo_paste {
+            layers = <BASE NAV NUM MEDIA SYM FUN MOUSE>;
             bindings = <&kp LG(V)>;
             key-positions = <27 28>;        // C + V
             timeout-ms = <30>;
@@ -116,7 +130,32 @@
         };
 
         combo_cut {
+            layers = <BASE NAV NUM MEDIA SYM FUN MOUSE>;
             bindings = <&kp LG(X)>;
+            key-positions = <26 28>;        // X + V (skip middle)
+            timeout-ms = <30>;
+            require-prior-idle-ms = <150>;
+        };
+
+        combo_win_copy {
+            layers = <WIN_BASE WIN_NAV WIN_NUM WIN_MEDIA WIN_SYM WIN_FUN WIN_MOUSE>;
+            bindings = <&kp LC(C)>;
+            key-positions = <26 27>;        // X + C
+            timeout-ms = <30>;
+            require-prior-idle-ms = <150>;
+        };
+
+        combo_win_paste {
+            layers = <WIN_BASE WIN_NAV WIN_NUM WIN_MEDIA WIN_SYM WIN_FUN WIN_MOUSE>;
+            bindings = <&kp LC(V)>;
+            key-positions = <27 28>;        // C + V
+            timeout-ms = <30>;
+            require-prior-idle-ms = <150>;
+        };
+
+        combo_win_cut {
+            layers = <WIN_BASE WIN_NAV WIN_NUM WIN_MEDIA WIN_SYM WIN_FUN WIN_MOUSE>;
+            bindings = <&kp LC(X)>;
             key-positions = <26 28>;        // X + V (skip middle)
             timeout-ms = <30>;
             require-prior-idle-ms = <150>;
@@ -175,7 +214,7 @@
         compatible = "zmk,keymap";
 
         base_layer {
-            display-name = "BASE";
+            display-name = "MAC BASE";
             bindings = <
 &kp TAB        &kp Q       &kp W       &kp E         &kp R         &kp T          &kp Y       &kp U         &kp I         &kp O        &kp P        &kp BSPC
 &mt LCTRL ESC  &mt LGUI A  &mt LALT S  &mt LCTRL D   &mt LSHFT F   &kp G          &kp H       &mt RSHFT J   &mt RCTRL K   &mt RALT L   &mt RGUI SQT &hyper
@@ -185,7 +224,7 @@
         };
 
         nav_layer {
-            display-name = "NAV";
+            display-name = "MAC NAV";
             bindings = <
 &none          &none       &none       &none         &none         &none          &kp LG(LS(Z)) &kp LG(V)   &kp LG(C)     &kp LG(X)    &kp LG(Z)    &none
 &none          &kp LGUI    &kp LALT    &kp LCTRL     &kp LSHFT     &none          &kp LEFT    &kp DOWN      &kp UP        &kp RIGHT    &kp CAPS     &none
@@ -195,7 +234,7 @@
         };
 
         num_layer {
-            display-name = "NUM";
+            display-name = "MAC NUM";
             bindings = <
 &none          &kp LBKT    &kp N7      &kp N8        &kp N9        &kp RBKT       &none       &none         &none         &none        &none        &none
 &none          &kp SEMI    &kp N4      &kp N5        &kp N6        &kp EQUAL      &none       &kp RSHFT     &kp RCTRL     &kp RALT     &kp RGUI     &none
@@ -205,9 +244,9 @@
         };
 
         media_layer {
-            display-name = "MEDIA";
+            display-name = "MAC MEDIA";
             bindings = <
-&none          &none       &none       &none         &none         &none          &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_HUI &rgb_ug RGB_SAI &none      &none
+&none          &to BASE  &to WIN_BASE       &none         &none         &none          &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_HUI &rgb_ug RGB_SAI &none      &none
 &none          &kp LGUI    &kp LALT    &kp LCTRL     &kp LSHFT     &none          &ext_power EP_TOG &kp C_PREV  &kp C_VOL_DN  &kp C_VOL_UP &kp C_NEXT   &none
 &none          &none       &none       &none         &none         &none          &out OUT_TOG &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_CLR
                                        &none         &none         &none          &kp C_STOP  &kp C_PP      &kp C_MUTE
@@ -215,7 +254,7 @@
         };
 
         sym_layer {
-            display-name = "SYM";
+            display-name = "MAC SYM";
             bindings = <
 &none          &kp LBRC    &kp AMPS    &kp ASTRK     &kp LPAR      &kp RBRC       &none       &none         &none         &none        &none        &none
 &none          &kp COLON   &kp DLLR    &kp PRCNT     &kp CARET     &kp PLUS       &none       &kp RSHFT     &kp RCTRL     &kp RALT     &kp RGUI     &none
@@ -225,7 +264,7 @@
         };
 
         fun_layer {
-            display-name = "FUN";
+            display-name = "MAC FUN";
             bindings = <
 &none          &kp F12     &kp F7      &kp F8        &kp F9        &kp PSCRN      &none       &none         &none         &none        &none        &none
 &none          &kp F11     &kp F4      &kp F5        &kp F6        &kp SLCK       &none       &kp RSHFT     &kp RCTRL     &kp RALT     &kp RGUI     &none
@@ -235,10 +274,80 @@
         };
 
         mouse_layer {
-            display-name = "MOUSE";
+            display-name = "MAC MOUSE";
             bindings = <
 &none          &none       &none       &none         &none         &none          &none            &none            &none          &none             &none        &none
 &none          &kp LGUI    &kp LALT    &kp LCTRL     &kp LSHFT     &none          &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP   &mmv MOVE_RIGHT   &none        &none
+&none          &none       &none       &none         &none         &none          &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP   &msc SCRL_RIGHT   &none        &none
+                                       &none         &none         &none          &mkp MCLK        &mkp LCLK        &mkp RCLK
+            >;
+        };
+
+        win_base_layer {
+            display-name = "WIN BASE";
+            bindings = <
+&kp TAB        &kp Q       &kp W       &kp E         &kp R         &kp T          &kp Y       &kp U         &kp I         &kp O        &kp P        &kp BSPC
+&mt LCTRL ESC  &mt LCTRL A  &mt LALT S  &mt LGUI D   &mt LSHFT F   &kp G          &kp H       &mt RSHFT J   &mt RGUI K   &mt RALT L   &mt RCTRL SQT &hyper
+&kp LSHFT      &kp Z       &kp X       &kp C         &kp V         &kp B          &kp N       &kp M         &kp COMMA     &kp DOT      &kp FSLH     &kp ESC
+                                        &lt WIN_MEDIA ESC &lt WIN_NAV SPACE &lt WIN_MOUSE TAB  &lt WIN_SYM RET &lt WIN_NUM BSPC  &lt WIN_FUN DEL
+            >;
+        };
+
+        win_nav_layer {
+            display-name = "WIN NAV";
+            bindings = <
+&none          &none       &none       &none         &none         &none          &kp LC(LS(Z)) &kp LC(V)   &kp LC(C)     &kp LC(X)    &kp LC(Z)    &none
+&none          &kp LCTRL    &kp LALT    &kp LGUI     &kp LSHFT     &none          &kp LEFT    &kp DOWN      &kp UP        &kp RIGHT    &kp CAPS     &none
+&none          &none       &none       &none         &none         &none          &kp INS     &kp HOME      &kp PG_DN     &kp PG_UP    &kp END      &none
+                                       &none         &none         &none          &kp RET     &kp BSPC      &kp DEL
+            >;
+        };
+
+        win_num_layer {
+            display-name = "WIN NUM";
+            bindings = <
+&none          &kp LBKT    &kp N7      &kp N8        &kp N9        &kp RBKT       &none       &none         &none         &none        &none        &none
+&none          &kp SEMI    &kp N4      &kp N5        &kp N6        &kp EQUAL      &none       &kp RSHFT     &kp RGUI     &kp RALT     &kp RCTRL     &none
+&none          &kp GRAVE   &kp N1      &kp N2        &kp N3        &kp BSLH       &none       &none         &none         &none        &none        &none
+                                       &kp DOT       &kp N0        &kp MINUS      &none       &none         &none
+            >;
+        };
+
+        win_media_layer {
+            display-name = "WIN MEDIA";
+            bindings = <
+&none          &to BASE  &to WIN_BASE       &none         &none         &none          &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_HUI &rgb_ug RGB_SAI &none      &none
+&none          &kp LCTRL    &kp LALT    &kp LGUI     &kp LSHFT     &none          &ext_power EP_TOG &kp C_PREV  &kp C_VOL_DN  &kp C_VOL_UP &kp C_NEXT   &none
+&none          &none       &none       &none         &none         &none          &out OUT_TOG &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_CLR
+                                       &none         &none         &none          &kp C_STOP  &kp C_PP      &kp C_MUTE
+            >;
+        };
+
+        win_sym_layer {
+            display-name = "WIN SYM";
+            bindings = <
+&none          &kp LBRC    &kp AMPS    &kp ASTRK     &kp LPAR      &kp RBRC       &none       &none         &none         &none        &none        &none
+&none          &kp COLON   &kp DLLR    &kp PRCNT     &kp CARET     &kp PLUS       &none       &kp RSHFT     &kp RGUI     &kp RALT     &kp RCTRL     &none
+&none          &kp TILDE   &kp EXCL    &kp AT        &kp HASH      &kp PIPE       &none       &none         &none         &none        &none        &none
+                                       &kp LPAR      &kp RPAR      &kp UNDER      &none       &none         &none
+            >;
+        };
+
+        win_fun_layer {
+            display-name = "WIN FUN";
+            bindings = <
+&none          &kp F12     &kp F7      &kp F8        &kp F9        &kp PSCRN      &none       &none         &none         &none        &none        &none
+&none          &kp F11     &kp F4      &kp F5        &kp F6        &kp SLCK       &none       &kp RSHFT     &kp RGUI     &kp RALT     &kp RCTRL     &none
+&none          &kp F10     &kp F1      &kp F2        &kp F3        &kp PAUSE_BREAK &none      &none         &none         &none        &none        &none
+                                       &kp K_APP     &kp SPACE     &kp TAB        &none       &none         &none
+            >;
+        };
+
+        win_mouse_layer {
+            display-name = "WIN MOUSE";
+            bindings = <
+&none          &none       &none       &none         &none         &none          &none            &none            &none          &none             &none        &none
+&none          &kp LCTRL    &kp LALT    &kp LGUI     &kp LSHFT     &none          &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP   &mmv MOVE_RIGHT   &none        &none
 &none          &none       &none       &none         &none         &none          &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP   &msc SCRL_RIGHT   &none        &none
                                        &none         &none         &none          &mkp MCLK        &mkp LCLK        &mkp RCLK
             >;

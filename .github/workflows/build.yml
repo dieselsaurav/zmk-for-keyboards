@@ -1,11 +1,26 @@
 name: Build ZMK firmware
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "config/**"
+      - "build.yaml"
+      - "tests/**"
+      - ".github/workflows/build.yml"
   push:
     paths:
       - "config/**"
       - "build.yaml"
+      - "tests/**"
+      - ".github/workflows/build.yml"
 
 jobs:
+  keymap-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check OS layer banks and shortcuts
+        run: python3 tests/check_keymap.py
   build:
+    needs: keymap-checks
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main

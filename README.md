@@ -3,6 +3,11 @@
 Split ergonomic keyboard (42 keys) running [ZMK firmware](https://zmk.dev) on Nice!Nano v2.
 Miryoku-style layout adapted from TOTEM config.
 
+## Mac and Windows
+
+See [setup, mode selection and installation](docs/mac-windows.md).
+Hold the ESC/Media thumb and tap **Q** for Mac or **W** for Windows.
+
 ## Keymap
 
 Auto-generated from [`config/corne.keymap`](config/corne.keymap) via [keymap-drawer](https://github.com/caksoylar/keymap-drawer):
@@ -22,7 +27,8 @@ The SVG updates automatically on push via the [Draw Keymap](.github/workflows/dr
 make viewer
 ```
 
-Press `?` for the cheat sheet. Press `0-6` to switch layers.
+The existing HTML viewer shows the original seven-layer layout only.
+Use ZMK Studio or the generated SVG for the complete Mac/Windows keymap.
 
 ## Build Firmware
 
